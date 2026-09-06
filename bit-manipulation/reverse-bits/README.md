@@ -46,7 +46,9 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+I start with a result `m = 0` and loop 32 times, since it's a 32-bit integer. Each round: shift `m` left by 1 to make room for the next bit, grab the current lowest bit of `n` with `n & 1` and add it into `m`, then shift `n` right by 1 to move to its next bit.
+
+After 32 rounds, `m` holds `n`'s bits reversed, and I return it.
 
 ## Time Complexity
 
@@ -58,4 +60,7 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- `n = 0` means every extracted bit is 0, so the result stays 0.
+- `n` with all 32 bits set stays unchanged, since all 1s reversed is still all 1s.
+- Shifting into the sign bit is fine in Java, since it's operating on the raw bit pattern with two's complement, so no special-casing is needed.
+- Leading zeros in `n` turn into trailing zeros in the output and vice versa. Easy to describe incorrectly out loud, so worth practicing the explanation.

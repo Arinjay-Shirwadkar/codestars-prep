@@ -52,7 +52,11 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+The answer is the smallest number `>= n` whose binary form is all 1s, meaning something of the form `2^c - 1`.
+
+Starting at `c = 1`, I compute what a `c`-bit all-ones number equals by summing `2^0 + 2^1 + ... + 2^(c-1)` using `pow(2, d)`. If that total is `>= n`, I return it immediately, since it's the answer.
+
+Otherwise I bump `c` up by one and try again.
 
 ## Time Complexity
 
@@ -64,4 +68,6 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- If `n` is already all 1s (e.g. `n = 7 = 0b111`), the loop finds `c = 3` gives exactly 7, which is `>= n`, so it returns `n` itself. The answer can be `n` when `n` already fits the pattern.
+- `n = 1`: `c = 1` gives `2^0 = 1 >= 1`, returning immediately.
+- I'm using `pow()`, which is floating point, to compute powers of 2. Works fine at this problem's scale, but a bit shift (`1 << d`) would've been the more natural fit for a bit-manipulation problem, worth mentioning if asked why I did it this way.

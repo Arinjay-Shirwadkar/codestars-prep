@@ -55,20 +55,31 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+What one realizes at first, after looking at a few examples, is that the weight capacity of the ship must fall in a very particular range. Logically, this range must be between the weight of the heaviest box and the sum of all boxes. Any lower than the weight of the heaviest and box, and it will never be able to ship it. And, if the ship can bear the weight of all boxes, it can deliver the packets in a single day.
+
+So, this problem naturally leads to a sorted search space and target condition, for which binary search will work quite well. 
 
 ## Algorithm
 
-_(fill in)_
+Binary search on the answer again, this time the ship capacity w. l starts at the heaviest single package (cant go below that) and u starts at the sum of everything (ship it all in one day).
+
+For a candidate mid, I simulate loading days, greedily adding weights to the current days load (runW) as long as they fit, and once the next package would overflow I start a new day with it as the first item. Count how many days (d) that takes.
+
+If d > days, mid is too small, search up (l = mid+1). If d <= days, mid works, save it as validw and try smaller (u = mid-1).
+
+Return validw once done.
 
 ## Time Complexity
 
-_(fill in)_
+The time complexity is O(nlog(n)) 
 
 ## Space Complexity
 
-_(fill in)_
+O(1)
 
 ## Edge Cases
 
-_(fill in)_
+array of length 1, l and u are both just that one weight, converges right away
+days exactly equal to weights.length forces the capacity to be at least the biggest single weight since basically every day carries exactly one package in that tightest case
+days = 1 forces validw to be the sum of everything
+the day counting bumps d one extra time right at the last index to close out the final day properly even if it wasnt overflowed into, this is a slightly weird way of ending the loop so id want to trace through a small example before explaining it live

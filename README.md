@@ -1,8 +1,6 @@
-# CP Committee Technical Interview — Problem Set
+#Codestars practise questions problem set
 
-Solutions prepared for the Competitive Programming committee's technical interview (Part 1: Competitive Programming). Organized by the core and bonus topics listed in the interview requirements. Each problem folder contains the original submitted solution plus a README with the approach, algorithm, time/space complexity, and edge cases (filled in by hand, not auto-generated).
-
-Note: some solutions here are being revised/rewritten for clarity — a solution appearing in this repo isn't necessarily final.
+Solutions prepared for codestars' technical task 1, part 1. Each problem folder contains the original submitted solution plus a README with the approach, algorithm, time/space complexity, and edge cases.
 
 ## Core Topics
 

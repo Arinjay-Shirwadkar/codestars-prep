@@ -61,7 +61,13 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+I wrote a recursive helper `dfs(i, run)`, where `run` is the XOR accumulated so far for whatever subset I'm currently building, and `i` is the index I'm deciding on next.
+
+Base case: once `i` reaches the end of `nums`, that means I've finished deciding on one complete subset, so I return its accumulated XOR (`run`).
+
+Otherwise I branch two ways: one where I include `nums[i]` (`dfs(i+1, run ^ nums[i])`) and one where I don't (`dfs(i+1, run)`), and I add the two results together.
+
+I start it off with `dfs(0, 0)`, which ends up exploring all 2ⁿ subsets and summing each one's XOR total.
 
 ## Time Complexity
 
@@ -73,4 +79,7 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- An empty array hits the base case immediately, since `i >= len(nums)` is already true, returning 0.
+- A single-element array `[a]` gives two branches: include `a` (XOR total `a`) or don't (XOR total 0), so the sum ends up being `a`.
+- An all-zero array means every subset's XOR total is 0, so the whole sum is 0.
+- This is honestly just brute-force O(2ⁿ), so it doesn't really show off a clever bit-manipulation trick. The neater way to do this is `(OR of all nums) << (n - 1)`, since every bit set in any number ends up set in exactly half of all subset XORs. I should have that reasoning ready, since that's probably the actual point of this problem.

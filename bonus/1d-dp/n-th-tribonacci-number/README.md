@@ -37,7 +37,11 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+I handle `T(0) = 0` and `T(1) = T(2) = 1` directly as base cases first.
+
+For `n >= 3`, I loop from 3 up to `n`, keeping only the last three values (`a`, `b`, `c`) instead of a full DP array. This is basically the space-optimized version of the recurrence `T(i) = T(i-1) + T(i-2) + T(i-3)`. Each step I compute `d = a + b + c`, then shift everything forward: `a = b`, `b = c`, `c = d`.
+
+I return `d` at the end.
 
 ## Time Complexity
 
@@ -49,4 +53,7 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- `n = 0` returns immediately through the base case, so the loop never runs.
+- `n = 1` or `n = 2` are also handled directly by the base case.
+- `n = 3`: the loop runs exactly once and correctly gives `T(3) = 1 + 1 + 0 = 2`.
+- For larger `n` near the constraint limit, the values grow fairly fast, so I'd want to double-check that `int` doesn't overflow if the constraints were ever pushed higher.

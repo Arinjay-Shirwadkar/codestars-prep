@@ -40,7 +40,13 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+I binary search on the answer again, this time the largest subarray sum. `l` is the biggest single element, `u` is the sum of the whole array.
+
+For a candidate `mid`, I greedily count how many subarrays I'd need if no subarray can exceed `mid`. I keep a running sum, and whenever adding the next element would push past `mid`, I start a new subarray (bump the count `t`, reset `sum` to just that element).
+
+If the resulting count `t <= k`, `mid` is feasible, so I save it as `validm` and try to shrink further (`u = mid - 1`). If `t > k`, `mid` is too small (would need more than `k` subarrays), so I search up (`l = mid + 1`).
+
+I return `validm`.
 
 ## Time Complexity
 
@@ -52,4 +58,7 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- `k = 1` forces `validm` to be the sum of the whole array, since only one subarray is allowed.
+- `k >= len(nums)` means each element can be its own subarray, so `validm` converges to `max(nums)`.
+- A single-element array: `l` and `u` are both just `nums[0]`, regardless of `k`.
+- All elements equal: the greedy split behaves predictably, which makes it a good problem to trace through by hand if I'm asked to walk through the binary search live.

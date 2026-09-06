@@ -41,7 +41,11 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+I set `max` to `nums[0]` to start (this matters for all-negative arrays) and `sum` to 0. I go through the array adding each element into `sum`, and after each addition I check whether `sum` is now bigger than `max`, updating `max` if so.
+
+The main idea: if `sum` ever goes negative, I reset it back to 0, since a negative running sum can only drag down any future subarray, so it's better to just start fresh from the next element. This is the core Kadane's algorithm insight.
+
+I return `max`.
 
 ## Time Complexity
 
@@ -53,4 +57,6 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- An all-negative array still works, since `max` starts at `nums[0]`. Even though `sum` keeps getting reset to 0, the true answer (the least negative single element) still gets caught by the `max` comparison before each reset.
+- A single-element array: both `max` and `sum` correctly resolve to that one value.
+- When the best subarray starts somewhere after a negative prefix, that's exactly what the `sum < 0` reset handles, and I should be ready to explain why discarding a negative running sum is always safe.

@@ -45,7 +45,11 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+In the constructor, I build a running prefix sum array `pre`, where `pre[i]` is the sum of everything from index 0 to `i`.
+
+For `sumRange(left, right)`, just computing `pre[right] - pre[left]` would exclude `nums[left]` itself, since `pre[left]` already includes it, so I add `num[left]` back in to correct for that: `pre[right] - pre[left] + num[left]`.
+
+Each query after the initial setup runs in O(1).
 
 ## Time Complexity
 
@@ -57,4 +61,7 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- `left == right` correctly reduces down to just `num[left]`.
+- `left == 0` still works, since `pre[0]` is just `num[0]` to begin with.
+- Negative numbers don't cause any issues, since it's just addition with no assumption of positivity.
+- Repeated queries stay O(1) each, regardless of how large the range is, which is really the whole point of precomputing the prefix sums.

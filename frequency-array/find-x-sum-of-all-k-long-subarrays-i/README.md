@@ -59,7 +59,11 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+First I find the max value in `nums` so I know how large to make my frequency array. Then I slide a window of size `k` across the array, and for every window position I reset `freq` to all zeros and rebuild it from scratch by counting what's in `nums[p .. p+k-1]`. Then I call `findsum(freq, x)` to get that window's answer.
+
+`findsum` runs `x` times. Each time it finds whichever value has the highest frequency (ties go to the larger value, that's the `i > maxpos` check), adds `maxpos * freq[maxpos]` to a running sum, then zeroes that value's frequency out so it isn't picked again.
+
+I return the array of all the per-window answers.
 
 ## Time Complexity
 
@@ -71,4 +75,7 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- If there are fewer than `x` distinct values left in a window, `findsum` just keeps finding `max = 0` for the remaining rounds and adds nothing further, so it doesn't break.
+- Ties in frequency are deliberately broken toward the larger value, matching what the problem asks for.
+- `k = nums.length` just means there's a single window.
+- I rebuild the whole frequency array from scratch every window rather than sliding it incrementally, so it ends up roughly O(n·k) overall. That's fine for this easy version's constraints, but the harder follow-up version would need the incremental approach to pass within its limits, worth mentioning if it comes up.

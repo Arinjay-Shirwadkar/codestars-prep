@@ -45,7 +45,13 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+I find the largest pile, which becomes my upper bound `u` for possible eating speeds, since eating faster than the biggest pile is pointless. Lower bound `l = 1`.
+
+I binary search on the answer (the eating speed `k`) rather than the array itself. For a candidate `mid`, I work out how many hours it would take at that speed, summing `ceil(pile / mid)` across all piles.
+
+If that total exceeds `h`, `mid` is too slow, so I search the upper half (`l = mid + 1`). If it's `<= h`, `mid` works, so I save it as `validk` and try to go lower (`u = mid - 1`).
+
+Once `l > u`, I return `validk`.
 
 ## Time Complexity
 
@@ -57,4 +63,7 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- `h` exactly equal to the number of piles forces the maximum possible speed, since Koko can only touch one pile per hour.
+- A single pile: `l` and `u` converge fast, and the answer is just `ceil(pile / h)`.
+- `h` much larger than needed: the smallest speed `k = 1` already satisfies the constraint, and the search correctly lands there.
+- The `Math.ceil` on a cast-to-double division matters a lot here. Forgetting to round up is the classic bug in this exact problem, so it's worth calling out specifically.

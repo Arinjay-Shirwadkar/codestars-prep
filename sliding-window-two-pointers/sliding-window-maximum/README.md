@@ -44,7 +44,11 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+I use a max-heap (Python's heapq is min-heap, so I push negative values) plus a dict called `consider` that counts how many of each value are currently alive in the window. Instead of physically removing something from the heap once it leaves the window, I just decrement its count in `consider` and clean it up lazily later.
+
+I seed the heap and `consider` with the first `k - 1` elements. Then I slide `p2` from `k - 1` to the end. Each step: push `nums[p2]` into the heap if it's new, and increment its count. Then I look at the top of the heap, and if that value has a count of 0 in `consider` (meaning it already left the window), I pop it, repeating until the top is actually still valid. Whatever's left on top is the max for this window, which I append to the answer. Then I remove `nums[p1]` from the window (decrement its count, or delete the key if it hits 0) and move `p1` forward.
+
+Return the collected maxima at the end.
 
 ## Time Complexity
 
@@ -56,4 +60,8 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- Duplicate values in the same window are fine, since I'm counting occurrences rather than just tracking presence.
+- `k = 1` means every element is its own window, and this still works since `p1` and `p2` effectively move together.
+- `k = len(nums)` just means there's one window covering the whole array.
+- Sometimes a stale max sits at the top of the heap for several iterations before it gets popped. The while loop handles this by popping as many as needed each time, so it stays correct even if cleanup lags a bit.
+- Worth noting this is O(n log n) because of the heap, not the actual optimal O(n) monotonic deque approach, so I should be ready to explain why I went this way if asked.

@@ -54,7 +54,11 @@ _(fill in)_
 
 ## Algorithm
 
-_(fill in)_
+Instead of a difference array, I ended up using a sorted approach with a min-heap for this one. I sort all the trips by their end location first.
+
+Then I keep a min-heap of currently active trips, keyed by drop-off point, and a running `currentcap` that starts at full `capacity`. Going through trips in order of increasing end point: first I pop and process anyone in the heap whose drop-off is `<= this trip's start`, since those passengers have already left, and I add their seats back to `currentcap`. Then I check if `currentcap` can fit the new trip. If not, I return False right away. Otherwise I subtract the passengers and push this trip onto the heap, keyed by its own end point.
+
+If I get through every trip without a capacity violation, I return True.
 
 ## Time Complexity
 
@@ -66,4 +70,8 @@ _(fill in)_
 
 ## Edge Cases
 
-_(fill in)_
+- Two trips sharing the same start or end still work fine, as long as the `drop off <= start` comparison holds. I use `<=` rather than `<`, so a passenger dropped off exactly where the next pickup happens still frees the seat in time.
+- A trip starting exactly where another ends is handled correctly for the same reason.
+- Capacity exactly matching the max simultaneous passengers should still return True, since the check only fails on strict overflow.
+- An empty `trips` list just returns True immediately, since the loop body never runs.
+- Worth flagging: the topic here is difference array, but what I actually wrote uses a sort-plus-heap simulation instead. I should have the classic difference-array version ready too (`diff[start] += passengers`, `diff[end] -= passengers`, then scan for any point exceeding capacity), in case that's specifically what's being asked about.
