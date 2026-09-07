@@ -40,7 +40,7 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+The main approach is to keep a track of the maximum element per window. One can do this either using a heap or a deque. Then, it becomes a simple sliding window problem.
 
 ## Algorithm
 
@@ -52,11 +52,10 @@ Return the collected maxima at the end.
 
 ## Time Complexity
 
-_(fill in)_
-
+O(N log N) or O(N)
 ## Space Complexity
 
-_(fill in)_
+O(K)
 
 ## Edge Cases
 
@@ -64,4 +63,4 @@ _(fill in)_
 - `k = 1` means every element is its own window, and this still works since `p1` and `p2` effectively move together.
 - `k = len(nums)` just means there's one window covering the whole array.
 - Sometimes a stale max sits at the top of the heap for several iterations before it gets popped. The while loop handles this by popping as many as needed each time, so it stays correct even if cleanup lags a bit.
-- Worth noting this is O(n log n) because of the heap, not the actual optimal O(n) monotonic deque approach, so I should be ready to explain why I went this way if asked.
+

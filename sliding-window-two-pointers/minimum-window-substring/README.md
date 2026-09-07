@@ -2,7 +2,7 @@
 
 [https://leetcode.com/problems/minimum-window-substring/](https://leetcode.com/problems/minimum-window-substring/)
 
-**Language:** java · **Status:** Accepted
+**Language:** python · **Status:** Accepted
 
 ## Problem Statement
 
@@ -43,32 +43,36 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+This can be recognized as a dynamic sliding window problem by analyzing what we actually want - the subarray with the minimum length which has all the characters from another string (simply translated to a hashmap). Instead of processing all subarrays, we can maintain a dyanmic sliding window. It grows continually, and shrinks whenever all characters from the string t are found in the subarray, in order to find the minimum.
 
 ## Algorithm
 
-First I build a frequency map `com` of every character in `t`. Then a second map `win`, initialized to 0 for each character that appears in `t`, which tracks how many of those characters are currently sitting inside my window.
+Algorithm
 
-Before the main loop starts, I pre-fill `win` using the first `t.length() - 1` characters of `s` (I leave out the very last one on purpose, it gets picked up in the main loop instead).
+First, count the frequency of each character in target string `t` using a hash map, and track the total number of distinct characters required. Initialize two pointers, `p1` and `p2`, at the start of string s to define a flexible sliding window. Keep a second hash map for characters inside the current window, along with a match counter that tracks how many distinct characters have met their target frequency requirement.
 
-`p1` is my left pointer and `p2` is the right one, starting at `t.length() - 1`. I use a flag `movep2` to know whether I still need to add `s[p2]` into `win` this round.
+Iterate through s by expanding `p2` one character at a time. If the current character exists in t, update its count in the window hash map. Whenever a character's window count reaches its required count in t, increment the match counter by one.
 
-While `p2` is within bounds: if `movep2` is set, I add `s[p2]` to `win`. Then I check if the window is currently valid, looping over every key in `com` and checking if `win` has at least that many of each character. If it's valid, I've found a candidate window, so I compare it to my current best and update `min`/`minS` if it's smaller, then shrink from the left (remove `s[p1]` from `win`, `p1++`). If it's not valid, I expand right instead (`p2++`, `movep2 = 1` so it gets counted next round).
+When the match counter equals the number of distinct characters in t, the window is valid. At this point, compare the current window length against the shortest valid window recorded so far, updating the best start and end indices if it is smaller. Then, shrink the window from the left by advancing p1. Before moving p1, decrement the window count of the character at p1; if its count falls below what t requires, decrement the match counter. Repeat this contraction process as long as the window remains valid. Once it becomes invalid, continue expanding p2.
 
-At the end, `minS` is the answer, or an empty string if nothing worked.
+After p2 reaches the end of s, slice and return the substring defined by the best recorded start and end indices. If no valid window was ever formed, return an empty string.
 
 ## Time Complexity
 
-_(fill in)_
+O(N+M)
 
 ## Space Complexity
 
-_(fill in)_
+O(1) (as we will only need to consider the lower + upper case english alphabets)
 
 ## Edge Cases
 
-- If `t` is longer than `s`, no window can possibly fit, so I check this at the very top and return an empty string right away.
-- `t` can have repeated characters (e.g. `t = "aab"`), which works fine since `com` stores counts, not just presence.
-- If no valid window exists, `minS` just stays empty, which gets returned.
-- If `s` and `t` are the same string, the whole string is the only valid window.
-- Characters in `s` that never appear in `t` get ignored automatically, since `win` only tracks keys that exist in `com`.
+- s is shorter than t: The right pointer iterates through s without ever reaching the required distinct match count, cleanly returning an empty string.
+
+- No valid window exists: If s is missing required characters, bestp1 stays initialized to -1, which results in an empty substring return.
+
+- s and t are identical: The right pointer expands to the full length of s, satisfies all requirements, records the full string as the best bounds, and returns s.
+
+- Duplicates in t: Because the algorithm checks exact frequency matches rather than simple character presence, words with duplicate characters (like "AABC") require s to contain at least two 'A's before considering that character satisfied.
+
+- Single-character strings: If both s and t are single matching characters, the window immediately validates at length 1, records the bounds, and returns that single character.

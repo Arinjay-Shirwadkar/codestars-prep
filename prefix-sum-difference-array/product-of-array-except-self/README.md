@@ -35,7 +35,7 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+Instead of accessing each element in the array per element, which would lead to O(n2) time complexity, we can simply sweep the array twice, maintinaing a prefix and suffix array, and multiplying the rest of the elements into prefix and suffix. Even better actually would be maintaining a single array instead of two different prefix and suffix arrays.
 
 ## Algorithm
 
@@ -45,11 +45,11 @@ The answer at each index is just `prefix[i] * suffix[i]`, since that's everythin
 
 ## Time Complexity
 
-_(fill in)_
+O(n)
 
 ## Space Complexity
 
-_(fill in)_
+O(n)
 
 ## Edge Cases
 

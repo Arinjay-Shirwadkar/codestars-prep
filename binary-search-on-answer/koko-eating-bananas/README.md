@@ -2,7 +2,7 @@
 
 [https://leetcode.com/problems/koko-eating-bananas/](https://leetcode.com/problems/koko-eating-bananas/)
 
-**Language:** java · **Status:** Accepted
+**Language:** python  · **Status:** Accepted
 
 ## Problem Statement
 
@@ -41,29 +41,29 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+The key insight is to recognize that the answer lies in a bounded search space - 1 to the maximum number of bananas in the piles. From here, it is not difficult to use binary search.
 
 ## Algorithm
 
 I find the largest pile, which becomes my upper bound `u` for possible eating speeds, since eating faster than the biggest pile is pointless. Lower bound `l = 1`.
 
-I binary search on the answer (the eating speed `k`) rather than the array itself. For a candidate `mid`, I work out how many hours it would take at that speed, summing `ceil(pile / mid)` across all piles.
+I binary search on the answer (the eating speed `hours`) rather than the array itself. For a candidate `mid`, I work out how many hours it would take at that speed, summing `pile +mid-1//mid` across all piles.
 
-If that total exceeds `h`, `mid` is too slow, so I search the upper half (`l = mid + 1`). If it's `<= h`, `mid` works, so I save it as `validk` and try to go lower (`u = mid - 1`).
+If that total exceeds `h`, `mid` is too slow, so I search the upper half (`l = mid + 1`). If it's `<= h`, `mid` works, so I save it as `optimal` and try to go lower (`u = mid - 1`).
 
-Once `l > u`, I return `validk`.
+Once `l > u`, I return `optimal`.
 
 ## Time Complexity
 
-_(fill in)_
+O(nlog(M))
 
 ## Space Complexity
 
-_(fill in)_
+O(1)
 
 ## Edge Cases
 
 - `h` exactly equal to the number of piles forces the maximum possible speed, since Koko can only touch one pile per hour.
 - A single pile: `l` and `u` converge fast, and the answer is just `ceil(pile / h)`.
 - `h` much larger than needed: the smallest speed `k = 1` already satisfies the constraint, and the search correctly lands there.
-- The `Math.ceil` on a cast-to-double division matters a lot here. Forgetting to round up is the classic bug in this exact problem, so it's worth calling out specifically.
+- The `Math.ceil` on a cast-to-double division matters a lot here. Forgetting to round up is the classic bug in this exact problem.

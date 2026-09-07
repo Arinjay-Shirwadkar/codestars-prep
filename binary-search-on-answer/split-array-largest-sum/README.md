@@ -36,7 +36,7 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+This one was pretty tricky, to be honest. To recognize that the problem had a definite search space was pretty tough, but once one sees that the minimum sum itself lies in a range, from the maximum element to the sum of all elements, one can run binary search on this set and check is, for any given `mid`, one can divide the array in less that or equal to k partitions (using a greedy approach).
 
 ## Algorithm
 
@@ -50,12 +50,11 @@ I return `validm`.
 
 ## Time Complexity
 
-_(fill in)_
+O(Nlog(M))
 
 ## Space Complexity
 
-_(fill in)_
-
+O(1)
 ## Edge Cases
 
 - `k = 1` forces `validm` to be the sum of the whole array, since only one subarray is allowed.

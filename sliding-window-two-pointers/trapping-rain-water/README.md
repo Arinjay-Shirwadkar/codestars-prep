@@ -45,11 +45,11 @@ I add up water from both passes and return the total.
 
 ## Time Complexity
 
-_(fill in)_
+O(n) as there are only two sweeps over the input array
 
 ## Space Complexity
 
-_(fill in)_
+O(1)
 
 ## Edge Cases
 

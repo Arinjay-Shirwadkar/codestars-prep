@@ -50,28 +50,26 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+I first solved this problem using a min-heap. I was able to remove the passengers who were to leave by doing this. However, this difference array and prefix sum approach is much superior as it runs faster. Since, at every position, passengers can either get on or get off, we can compute the net change in passengers at every position by simply subtracting those that get off and adding those that get on. Now we simply check each position to see if the number of passengers ever exceed capacity.
 
 ## Algorithm
 
-Instead of a difference array, I ended up using a sorted approach with a min-heap for this one. I sort all the trips by their end location first.
-
-Then I keep a min-heap of currently active trips, keyed by drop-off point, and a running `currentcap` that starts at full `capacity`. Going through trips in order of increasing end point: first I pop and process anyone in the heap whose drop-off is `<= this trip's start`, since those passengers have already left, and I add their seats back to `currentcap`. Then I check if `currentcap` can fit the new trip. If not, I return False right away. Otherwise I subtract the passengers and push this trip onto the heap, keyed by its own end point.
-
-If I get through every trip without a capacity violation, I return True.
+Initialize an array or hash map spanning all potential stop locations to track net passenger changes, setting every location to zero. For each trip in the list, record passenger changes by adding the number of passengers to the start location and subtracting that exact amount from the end location. Next, iterate sequentially through every stop along the timeline while maintaining a running tally of onboard passengers. At each stop, add the location's net change to the running total and check if it exceeds the vehicle's maximum capacity. If the passenger count ever goes over capacity, immediately return false; otherwise, if you process all stops without exceeding the limit, return true.
 
 ## Time Complexity
 
-_(fill in)_
+O(N)
 
 ## Space Complexity
 
-_(fill in)_
+O(1)
 
 ## Edge Cases
 
-- Two trips sharing the same start or end still work fine, as long as the `drop off <= start` comparison holds. I use `<=` rather than `<`, so a passenger dropped off exactly where the next pickup happens still frees the seat in time.
-- A trip starting exactly where another ends is handled correctly for the same reason.
-- Capacity exactly matching the max simultaneous passengers should still return True, since the check only fails on strict overflow.
-- An empty `trips` list just returns True immediately, since the loop body never runs.
-- Worth flagging: the topic here is difference array, but what I actually wrote uses a sort-plus-heap simulation instead. I should have the classic difference-array version ready too (`diff[start] += passengers`, `diff[end] -= passengers`, then scan for any point exceeding capacity), in case that's specifically what's being asked about.
+Same location drop-offs and pick-ups: When one group gets off at the exact same stop where another group gets on, net passenger changes at that location consolidate correctly into a single net value, ensuring passengers step off before new ones step on.
+
+Zero vehicle capacity: If capacity is set to zero and any trip contains one or more passengers, the running count immediately breaches the limit at the very first pickup point.
+
+Capacity equal to total passengers on disjoint trips: Trips that do not overlap in time can safely reuse the full vehicle capacity across different legs of the journey without triggering a false positive.
+
+Multiple trips starting at the exact same stop: Several trips boarding at the same location sum together in the difference array before the capacity check occurs, catching over-capacity scenarios at that specific stop right away.
