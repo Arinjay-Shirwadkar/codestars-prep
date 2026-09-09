@@ -1,57 +1,42 @@
-import java.util.*;
-class Solution {
-                  public String minWindow(String s, String t) {
-                      HashMap<Character,Integer> com = new HashMap<>();
-                      HashMap<Character,Integer> win = new HashMap<>();
-                      int p1=0,p2=t.length()-1;
-                      if (p2>=s.length())return "";
-
-                      for(int i=0;i<t.length();i++){
-                          com.put(t.charAt(i),com.getOrDefault(t.charAt(i),0)+1);
-                          win.put(t.charAt(i),0);
-                      }
-                      //win will have 0 for all the characters of t
-
-                      for(int i=0;i<t.length()-1;i++){
-                          if(win.containsKey(s.charAt(i)))win.put(s.charAt(i),win.get(s.charAt(i))+1);
-                      }
-                      //the last character will not be put,on purpose
-                      //we count the frequencies of the characters in t and of the
-                      //first t.length() characters in s too
-                      int valid=1; //1 by default. 0 if invalid
-                      int min=s.length()+1;
-                      String minS="";
-                      int movep2=1;
-                      while(p2<s.length()){
-                          if(movep2==1){
-                              if(win.containsKey(s.charAt(p2))){
-                                  win.put(s.charAt(p2),win.get(s.charAt(p2))+1);
-                              }
-                          }
-                          movep2=0;
-                          //check the validity of a substring
-                          valid=1;
-                          for(char c: com.keySet()){ //o(26n) worst case
-                              if(win.get(c)>=com.get(c))continue;
-                              else{valid =0; break;}
-                          }
-                          if(valid==1){
-                              if(p2-p1+1<min){
-                                  min=p2-p1+1;
-                                  minS=s.substring(p1,p2+1);
-                              }
-                              if(win.containsKey(s.charAt(p1))){
-                              win.put(s.charAt(p1),win.get(s.charAt(p1))-1);
-                          }
-                              p1++;
-
-                          }
-                          else{
-                              p2++;
-                              movep2=1;
-                          }
-
-                      }
-                      return minS;
-                  }
-              }
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        p1,p2=0,0
+        substring=[]
+        tmap={}
+        sol=""
+        bestp1,bestp2=-1,-1
+        distinct=0
+        for char in t:
+            if char not in tmap:
+                distinct+=1
+                tmap[char]=1
+            else:
+                tmap[char]=tmap[char]+1
+        satisfied=0
+        smap={}
+        for p2 in range(0,len(s)):
+            #consider the element at p2 now
+            char = s[p2]
+            if char in tmap:
+                if char not in smap:
+                    smap[char]=1
+                else:
+                    smap[char]=smap[char]+1
+                if smap[char]==tmap[char]:
+                    satisfied+=1
+            while satisfied==distinct:
+                #shrink the window
+                #substring=s[p1:p2+1]
+                if p2-p1+1<bestp2-bestp1+1 or bestp1==-1:
+                    bestp1=p1
+                    bestp2=p2
+                if s[p1] in smap and s[p1] in tmap:
+                    smap[s[p1]]-=1
+                    if smap[s[p1]]<tmap[s[p1]]:
+                        satisfied-=1
+                    if smap[s[p1]]==0:
+                        smap.pop(s[p1])
+                    
+                p1+=1
+        sol = s[bestp1:bestp2+1]
+        return "".join(sol)

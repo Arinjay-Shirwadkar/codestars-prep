@@ -82,4 +82,4 @@ O(1)
 array of length 1, l and u are both just that one weight, converges right away
 days exactly equal to weights.length forces the capacity to be at least the biggest single weight since basically every day carries exactly one package in that tightest case
 days = 1 forces validw to be the sum of everything
-the day counting bumps d one extra time right at the last index to close out the final day properly even if it wasnt overflowed into, this is a slightly weird way of ending the loop so id want to trace through a small example before explaining it live
+the day counting bumps d one extra time right at the last index to close out the final day properly even if it wasnt overflowed into.

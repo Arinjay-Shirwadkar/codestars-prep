@@ -41,7 +41,7 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+A fairly straightforward prefix sum question. Given the array, we precompute the prefix array so future range queries will run in constant time.
 
 ## Algorithm
 
@@ -53,11 +53,11 @@ Each query after the initial setup runs in O(1).
 
 ## Time Complexity
 
-_(fill in)_
+O(n)
 
 ## Space Complexity
 
-_(fill in)_
+O(n)
 
 ## Edge Cases
 

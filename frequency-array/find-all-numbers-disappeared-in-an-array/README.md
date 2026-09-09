@@ -31,7 +31,7 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+This one was tough to do in O(n). The approach is to use the array itself to mark what numbers have been seen. Since we know the numbers found belong to a range, 1 to n, this also means we can consider each as an index in the n sized array. We can mark that position as -1, since we know negative numbers wont exist and later sweep the array once to find which indices remain positive (unvisited and therefore not present)
 
 ## Algorithm
 
@@ -43,11 +43,11 @@ After that pass, I scan the array again. Any index that's still positive means t
 
 ## Time Complexity
 
-_(fill in)_
+O(n)
 
 ## Space Complexity
 
-_(fill in)_
+O(1)
 
 ## Edge Cases
 
