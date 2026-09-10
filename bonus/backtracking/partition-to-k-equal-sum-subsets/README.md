@@ -29,7 +29,7 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+I use a bucket strategy for this one. Essentially maintaining k buckets and deciding per number whether to add it to a particular bucket or not. This naturally calls for backtracking.
 
 ## Algorithm
 

@@ -33,7 +33,7 @@ Description
 
 ## Approach / Intuition
 
-_(fill in)_
+Basically, I thought about how I could place a queen at a particular position and remember it was there in deeper levels of recursion. To do this, I utilize a placed list which records row and col of the placed queen. Later, I pop the queen from here and continue on.
 
 ## Algorithm
 
